@@ -1,0 +1,77 @@
+---
+# Container info
+- descriptor: "pip-services:container-info:default:default:*"
+  name: "pip-facades-example"
+  description: "Example Pip.Services facade"
+
+# Console logger
+- descriptor: "pip-services:logger:console:default:*"
+  level: trace
+
+# Log counters
+- descriptor: "pip-services:counters:log:default:*"
+
+# Mongodb connection
+- descriptor: "pip-services:connection:mongodb:default:*"
+  connection:
+    uri: {{MONGO_SERVICE_URI}}
+    host: {{MONGO_SERVICE_HOST}}{{#unless MONGO_SERVICE_HOST}}localhost{{/unless}}
+    port: {{MONGO_SERVICE_PORT}}{{#unless MONGO_SERVICE_PORT}}27017{{/unless}}
+    database: {{MONGO_DB}}{{#unless MONGO_DB}}app{{/unless}}
+  credential:
+    username: {{MONGO_USER}}
+    password: {{MONGO_PASS}}
+
+# Accounts components
+- descriptor: "pip-services-accounts:client:commandable-http:default:*"
+  connection:
+    protocol: "http"
+    host: {{ACCOUNT_SERVICE_HOST}}{{#unless ACCOUNT_SERVICE_HOST}}localhost{{/unless}}
+    port: 8080
+# Roles components
+- descriptor: "pip-services-roles:client:commandable-http:default:*"
+  connection:
+    protocol: "http"
+    host: {{ROLES_SERVICE_HOST}}{{#unless ROLES_SERVICE_HOST}}localhost{{/unless}}
+    port: 8080
+
+# Passwords components
+- descriptor: "pip-services-passwords:client:commandable-http:default:*"
+  connection:
+    protocol: "http"
+    host: {{PASSWORDS_SERVICE_HOST}}{{#unless PASSWORDS_SERVICE_HOST}}localhost{{/unless}}
+    port: 8080
+
+# Session components
+- descriptor: "pip-services-sessions:client:commandable-http:default:*"
+  connection:
+    protocol: "http"
+    host: {{SESSIONS_SERVICE_HOST}}{{#unless SESSIONS_SERVICE_HOST}}localhost{{/unless}}
+    port: 8080
+
+# Beacons components
+- descriptor: "beacons:client:http:default:*"
+  connection:
+    protocol: "http"
+    host: {{BEACONS_SERVICE_HOST}}{{#unless BEACONS_SERVICE_HOST}}localhost{{/unless}}
+    port: 8080
+
+# Main facade service
+- descriptor: "pip-services:endpoint:http:default:*"
+  root_path: ""
+  connection:
+    protocol: "http"
+    host: "0.0.0.0"
+    port: 8080
+
+# Facade API V1
+- descriptor: "pip-facades-example:service:http:default:1.0"
+
+# Facade API V2
+- descriptor: "pip-facades-example:service:http:default:2.0"
+
+# Hearbeat service
+- descriptor: "pip-services:heartbeat-service:http:default:1.0"
+
+# Status service
+- descriptor: "pip-services:status-service:http:default:1.0"
